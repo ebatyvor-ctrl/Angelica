@@ -2,6 +2,15 @@
 
 repositories {
     maven {
+        name = "GTNH Nexus Public"
+        url = uri("https://nexus.gtnewhorizons.com/repository/public/")
+    }
+    maven {
+        name = "TauMC Snapshots"
+        url = uri("https://maven.taumc.org/snapshots")
+    }
+
+    maven {
         name = 'mavenpattern'
         url = 'https://mvn.falsepattern.com/releases'
         content {
