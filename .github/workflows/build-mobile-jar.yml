@@ -20,11 +20,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Angelica JAR
-        run: ./gradlew assemble --no-daemon --no-configuration-cache --stacktrace -x test
+      - name: Build Angelica with Gradle Init Script
+        run: ./gradlew assemble --no-daemon --no-configuration-cache --stacktrace -x test -I fix_deps.gradle
 
-      - name: Upload compiled Angelica JAR
+      - name: Upload compiled Angelica JAR artifact
         uses: actions/upload-artifact@v4
         with:
           name: angelica-mobileglues-snap865
-          path: build/libs/*.jar
+          path: |
+            build/libs/*.jar
+            */build/libs/*.jar

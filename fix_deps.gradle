@@ -1,0 +1,18 @@
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://nexus.gtnewhorizons.com/repository/public/" }
+        maven { url "https://maven.taumc.org/snapshots" }
+        maven { url "https://maven.taumc.org/releases" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    }
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { details ->
+                if (details.requested.group == 'org.lwjgl' && (details.requested.version?.contains('SNAPSHOT') || details.requested.version == '3.4.2-SNAPSHOT')) {
+                    details.useVersion '3.4.2'
+                }
+            }
+        }
+    }
+}
