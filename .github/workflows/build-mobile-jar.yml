@@ -2,26 +2,35 @@ name: Build Angelica for Mobile (Snapdragon 865)
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [ master, main, mobileglues-snap865-fix ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Setup Java 17
+      - name: Set up JDK versions (8, 17, 21 for GTNH Toolchains)
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: 'zulu'
+          java-version: |
+            8
+            17
+            21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          build-scan-publish: false
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Angelica with Gradle Init Script
-        run: ./gradlew assemble --no-daemon --no-configuration-cache --stacktrace -x test -I fix_deps.gradle
+      - name: Build Angelica JAR with Gradle
+        run: ./gradlew assemble --no-daemon --no-configuration-cache --stacktrace -x test -x check -I fix_deps.gradle
 
       - name: Upload compiled Angelica JAR artifact
         uses: actions/upload-artifact@v4
