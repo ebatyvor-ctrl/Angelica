@@ -79,4 +79,8 @@ public class BooleanState implements ISettableState<BooleanState> {
     public BooleanState copy() {
         return new BooleanState(this.glCap).set(this);
     }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 }

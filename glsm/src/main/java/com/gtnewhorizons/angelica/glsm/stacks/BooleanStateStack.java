@@ -106,4 +106,11 @@ public class BooleanStateStack extends BooleanState implements CowStateStack<Boo
     private void setEnabledDirect(boolean enabled) {
         super.setEnabled(enabled);
     }
+
+    public boolean isEnabled() {
+        return isEffectivelyEnabled();
+    }
+    public void setVanillaLayer(com.gtnewhorizons.angelica.glsm.hooks.VanillaBooleanLayer vanillaLayer) {
+        this.vanillaLayer = vanillaLayer;
+    }
 }
