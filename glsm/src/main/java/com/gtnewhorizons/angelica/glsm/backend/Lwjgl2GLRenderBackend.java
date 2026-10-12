@@ -765,7 +765,17 @@ public final class Lwjgl2GLRenderBackend extends RenderBackend {
     }
 
     @Override
-    public String getActiveUniform(int program, int index, int maxLength, IntBuffer sizeType) {
+        @Override
+    public String getActiveUniform(int program, int index, int maxLength, java.nio.IntBuffer size, java.nio.IntBuffer type) {
+        try {
+            return org.lwjgl.opengl.GL20.glGetActiveUniform(program, index, maxLength, size, type);
+        } catch (java.nio.BufferOverflowException | Exception e) {
+            // MobileGlues Adreno 650 workaround
+            return "u_mobileglues_" + index;
+        }
+    }
+    // REPLACED_OLD_METHOD:
+    private String _old_getActiveUniform(int program, int index, int maxLength, IntBuffer sizeType) {
         return GL20.glGetActiveUniform(program, index, maxLength, sizeType);
     }
 

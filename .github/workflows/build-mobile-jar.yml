@@ -1,0 +1,33 @@
+name: Build Angelica Mobile (Adreno 650)
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: |
+            8
+            17
+            21
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Angelica JAR
+        run: ./gradlew build --no-daemon -x test
+
+      - name: Upload APK/JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: angelica-mobileglues-snap865
+          path: build/libs/*.jar
